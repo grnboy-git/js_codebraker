@@ -6,8 +6,8 @@ var defaultCardNum;
 var defaultCardRange;
 var countHit;
 var countBlow;
-var answerNum;
-var inputNum;
+var answerNum = new Array(3);
+var inputNum = new Array(3);
 
 function init() {
     this.title = "Code Braker!!";
@@ -30,7 +30,7 @@ function standby() {
     setAnswerNum ();    
 }
 
-function standby(default) {
+function standby(defaultCardNum) {
     this.defaultCardNum = defaultCardNum;
     this.answerNum = defaultCardNum;
     this.inputNum = defaultCardNum;
@@ -76,7 +76,7 @@ function judgeAnswer() {
     this.countHit = 0;
     this.countBlow = 0;
 
-    for (i = 0; i <= answerNum.length - 1; i++) {
+    for (var i = 0; i <= this.answerNum.length - 1; i++) {
         if (answerNum[i] == inputNum[i]) {
             this.countHit++;
         } else {
@@ -91,6 +91,40 @@ function judgeAnswer() {
         return false;
     }
     return true;
+}
+
+function judge(){
+    var form = document.getElementById("form");
+    this.answerNum[0] = form.selectNum1.value;
+    this.answerNum[1] = form.selectNum2.value;
+    this.answerNum[2] = form.selectNum3.value;
+
+    var judge = this.judgeAnswer();
+
+    var ans = this.getAnswer();
+    var input = this.getInput();
+    var row = new Array(5);
+    for (var i=0; i<3; i++){
+        row[i] = Number(input[i]);
+    }
+    row[3] = Number(this.getHit());
+    row[4] = Number(this.getHit());
+    // html操作
+    var table = document.getElementById("list");
+    var listRow = table.insertRow(-1);
+
+    var cell1 = listRow.insertCell(-1);
+    var cell2 = listRow.insertCell(-1);
+    var cell3 = listRow.insertCell(-1);
+    var cell4 = listRow.insertCell(-1);
+    var cell5 = listRow.insertCell(-1);
+
+    cell1.appendChild(document.createTextNode(row[0]));
+    cell2.appendChild(document.createTextNode(row[1]));
+    cell3.appendChild(document.createTextNode(row[2]));
+    cell4.appendChild(document.createTextNode(row[3]));
+    cell5.appendChild(document.createTextNode(row[4]));
+
 }
 
 function getTitle(){
